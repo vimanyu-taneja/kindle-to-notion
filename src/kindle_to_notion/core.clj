@@ -3,6 +3,7 @@
   (:require [clojure.java.io :as io]
             [clojure.pprint :refer [pprint]]
             [clojure.string :as str]
+            [environ.core :refer [env]]
             [taoensso.timbre :as log]))
 
 (defn parse-clippings []
