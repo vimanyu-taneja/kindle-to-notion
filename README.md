@@ -1,36 +1,37 @@
 # kindle-to-notion
 
-FIXME: description
+Export highlights made on a Kindle device to a custom Notion page. This is achieved by parsing the data stored on the `My Clippings.txt` file on the Kindle, and uploading it via the Notion API.
 
-## Installation
+## Bugs
 
-Download from http://example.com/FIXME.
+### Overlapping clippings
 
-## Usage
+- The `My Clippings.txt` file on Kindle devices does not delete data from the file when a highlight is removed from text.
+- When a new annotation is added, the device appends it to the existing file without deleting any previous annotations.
+- This can result in multiple clippings with overlapping text. For example, we may extract the following highlights for a book:
 
-FIXME: explanation
+```clojure
+({:title "How to Win Friends and Influence People",
+  :author "Dale Carnegie",
+  :start-loc 88,
+  :end-loc 91,
+  :added-at "Thursday, 23 February 2023 21:52:00",
+  :text "By criticizing, we do not make lasting changes and often incur resentment. Hans"}
+ {:title "How to Win Friends and Influence People",
+  :author "Dale Carnegie",
+  :start-loc 88,
+  :end-loc 90,
+  :added-at "Thursday, 23 February 2023 21:52:14",
+  :text "By criticizing, we do not make lasting changes and often incur resentment."})
+```
 
-    $ java -jar kindle-to-notion-0.1.0-standalone.jar [args]
-
-## Options
-
-FIXME: listing of options this app accepts.
-
-## Examples
-
-...
-
-### Bugs
-
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
+- In the example above, I included "Hans" at the end of the first highlight by mistake, and later edited it to remove that part.
+- Despite the edit, both the original and edited highlights are present in the `My Clippings.txt` file.
+- To avoid this, it would be useful to identify overlapping highlights and keep only the most recent one based on the `:added-at` value.
 
 ## License
 
-Copyright © 2023 FIXME
+Copyright © 2023 Vimanyu Taneja
 
 This program and the accompanying materials are made available under the
 terms of the Eclipse Public License 2.0 which is available at
