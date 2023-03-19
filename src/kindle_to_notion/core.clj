@@ -1,15 +1,20 @@
 (ns kindle-to-notion.core
   (:gen-class)
   (:require [clojure.java.io :as io]
-            [clojure.pprint :refer [pprint]]
             [clojure.string :as str]
-            [environ.core :refer [env]]
+            [kindle-to-notion.notion :as notion]
             [taoensso.timbre :as log]))
+
+(defn extract-id [body]
+  (-> body
+      (get "results")
+      (first)
+      (get "id")))
 
 (defn parse-clippings []
   (let [lines ; separate out individual clippings
         (->  (io/resource "My Clippings.txt")
-             slurp
+             (slurp)
              (str/replace #"\ufeff|\r\n" "")
              (str/split #"=========="))
         items ; extract data from each clipping
@@ -32,6 +37,17 @@
     (log/info "Groups:" (pr-str groups))
     groups))
 
+(defn update-notion-page [title text]
+  (let [page-id  (->
+                  (notion/get-notion-db-entry title)
+                  (extract-id))
+        block-id (->
+                  (notion/get-children-blocks page-id)
+                  (extract-id))]
+    (log/info "Page ID:"  page-id)
+    (log/info "Block ID:" block-id)
+    (notion/update-block-text block-id text)))
+
 (defn -main
   [& args]
-  (pprint (parse-clippings)))
+  (log/info "Running with args:" args))

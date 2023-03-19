@@ -5,7 +5,10 @@
             :url "https://www.eclipse.org/legal/epl-2.0/"}
   :dependencies [[org.clojure/clojure "1.11.1"]
                  [com.taoensso/timbre "5.2.1"]
-                 [environ "1.2.0"]]
+                 [environ "1.2.0"]
+                 [org.clojure/data.json "2.4.0"]
+                 [clj-http "3.10.0"]
+                 [cheshire "5.10.0"]]
   :main ^:skip-aot kindle-to-notion.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all
