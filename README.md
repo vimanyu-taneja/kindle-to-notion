@@ -2,6 +2,12 @@
 
 Export highlights made on a Kindle device to a custom Notion page. This is achieved by parsing the data stored on the `My Clippings.txt` file on the Kindle, and uploading it via the Notion API.
 
+## Example
+
+Below is an example of how the highlights will look once added to the Notion database.
+
+![The highlighted text is listed on the page, with one block for each quote.](media/sample_highlights_in_notion.png)
+
 ## Usage
 
 ### Copy Notion template
