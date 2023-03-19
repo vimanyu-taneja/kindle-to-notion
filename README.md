@@ -2,7 +2,13 @@
 
 Export highlights made on a Kindle device to a custom Notion page. This is achieved by parsing the data stored on the `My Clippings.txt` file on the Kindle, and uploading it via the Notion API.
 
-## Bugs
+## Room for improvement
+
+### Highlights longer than 2000 characters
+
+- Notion allows a maximum of 2000 characters in a text block.
+- Currently, if a highlight is longer than 2000 characters, the code ignores it.
+- To avoid losing these highlights, we should split them into multiple blocks.
 
 ### Overlapping clippings
 
