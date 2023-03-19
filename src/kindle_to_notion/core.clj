@@ -37,6 +37,12 @@
     (log/info "Groups:" (pr-str groups))
     groups))
 
+(defn format-clippings [clippings]
+  (->> clippings
+       (map :text)
+       (interpose "\n\n")
+       (apply str)))
+
 (defn update-notion-page [title text]
   (let [page-id  (->
                   (notion/get-notion-db-entry title)
