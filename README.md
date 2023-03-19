@@ -4,6 +4,11 @@ Export highlights made on a Kindle device to a custom Notion page. This is achie
 
 ## Usage
 
+### Copy Notion template
+
+1. Copy my Notion reading tracker by clicking 'Duplicate' at the top of the following page: [Reading tracker template](https://vimanyu.notion.site/f9fba4fe37f54ed098dbbfe7c6d15878?v=9ccb4031b1684449a8361b150a561d30).
+2. Update the page with your reading list. Make sure the title of each book in the database matches its name on the Kindle.
+
 ### Get `My Clippings.txt` file
 
 1. Connect your Kindle via cable to your computer.
