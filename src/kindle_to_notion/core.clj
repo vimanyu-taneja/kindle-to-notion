@@ -56,4 +56,14 @@
 
 (defn -main
   [& args]
-  (log/info "Running with args:" args))
+  (log/info "Running with args:" args)
+  (let [parsed-data (parse-clippings)]
+    (doseq [book parsed-data]
+      (let [{:keys [title clippings]} book
+            text   (format-clippings clippings)]
+        (log/info "Updating highlights for book:" title)
+        (log/info "Text to be added:" (str/replace text #"\n" "/"))
+        (update-notion-page title text))))
+  (log/info "All done!"))
+
+(comment (-main))
