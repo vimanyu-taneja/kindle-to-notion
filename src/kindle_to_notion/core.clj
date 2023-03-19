@@ -5,12 +5,6 @@
             [kindle-to-notion.notion :as notion]
             [taoensso.timbre :as log]))
 
-(defn extract-id [body]
-  (-> body
-      (get "results")
-      (first)
-      (get "id")))
-
 (defn parse-clippings []
   (let [lines ; separate out individual clippings
         (->  (io/resource "My Clippings.txt")
@@ -37,22 +31,19 @@
     (log/info "Groups:" (pr-str groups))
     groups))
 
-(defn format-clippings [clippings]
-  (->> clippings
-       (map :text)
-       (interpose "\n\n")
-       (apply str)))
+(defn extract-id [body]
+  (-> body
+      (get "results")
+      (first)
+      (get "id")))
 
-(defn update-notion-page [title text]
-  (let [page-id  (->
-                  (notion/get-notion-db-entry title)
-                  (extract-id))
-        block-id (->
-                  (notion/get-children-blocks page-id)
-                  (extract-id))]
-    (log/info "Page ID:"  page-id)
-    (log/info "Block ID:" block-id)
-    (notion/update-block-text block-id text)))
+(defn update-notion-page [title highlights]
+  (let [page-id
+        (->
+         (notion/get-notion-db-entry title)
+         (extract-id))]
+    (log/info "Page ID:" page-id)
+    (notion/append-blocks page-id highlights)))
 
 (defn -main
   [& args]
@@ -60,10 +51,10 @@
   (let [parsed-data (parse-clippings)]
     (doseq [book parsed-data]
       (let [{:keys [title clippings]} book
-            text   (format-clippings clippings)]
+            highlights (map :text clippings)]
         (log/info "Updating highlights for book:" title)
-        (log/info "Text to be added:" (str/replace text #"\n" "/"))
-        (update-notion-page title text))))
+        (log/info "Highlights to be added:" (pr-str highlights))
+        (update-notion-page title highlights))))
   (log/info "All done!"))
 
 (comment (-main))
