@@ -31,6 +31,11 @@
     (log/info "Groups:" (pr-str groups))
     groups))
 
+(defn extract-highlights [clippings]
+  (->> clippings
+       (map :text)
+       (remove #(> (count %) 2000))))
+
 (defn extract-id [body]
   (-> body
       (get "results")
@@ -51,7 +56,7 @@
   (let [parsed-data (parse-clippings)]
     (doseq [book parsed-data]
       (let [{:keys [title clippings]} book
-            highlights (map :text clippings)]
+            highlights (extract-highlights clippings)]
         (log/info "Updating highlights for book:" title)
         (log/info "Highlights to be added:" (pr-str highlights))
         (update-notion-page title highlights))))
