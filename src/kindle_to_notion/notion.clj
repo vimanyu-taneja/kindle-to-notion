@@ -35,17 +35,17 @@
 
 (defn append-blocks [page-id highlights]
   (try
-    (let [token    (env :notion-key)
-          url      (format "https://api.notion.com/v1/blocks/%s/children" page-id)
-          headers  {"Authorization"  (str "Bearer " token)
-                    "Notion-Version" "2022-06-28"
-                    :content-type    "application/json"}
-          body     (json/write-str
-                    {"children" (construct-blocks highlights)})
-          response (http/patch
-                    url
-                    {:headers headers
-                     :body    body})]
-      (json/read-str (:body response)))
+    (let [token     (env :notion-key)
+          url       (format "https://api.notion.com/v1/blocks/%s/children" page-id)
+          headers   {"Authorization"  (str "Bearer " token)
+                     "Notion-Version" "2022-06-28"
+                     :content-type    "application/json"}
+          blocks    (partition-all 100 (construct-blocks highlights)) ; can send a max of 100 blocks per request
+          responses (map #(http/patch
+                           url
+                           {:headers headers
+                            :body    (json/write-str {:children %})})
+                         blocks)]
+      (doall (mapv #(json/read-str (:body %)) responses)))
     (catch Throwable e
       (log/error "Unable to append children blocks:" e))))
