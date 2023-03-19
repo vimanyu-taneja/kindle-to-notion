@@ -61,5 +61,3 @@
         (log/info "Highlights to be added:" (pr-str highlights))
         (update-notion-page title highlights))))
   (log/info "All done!"))
-
-(comment (-main))
