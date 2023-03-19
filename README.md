@@ -15,7 +15,7 @@ Export highlights made on a Kindle device to a custom Notion page. This is achie
 ### Get Notion credentials
 
 1. Follow the instructions on the following page to create an internal Notion integration and retrieve the integration token: [Create integrations with the Notion API](https://www.notion.so/help/create-integrations-with-the-notion-api#create-an-internal-integration).
-2. Refer to the 'Where can I find my database's ID?' section on the following page to get your database ID: [Working with databases](https://developers.notion.com/docs/working-with-databases#adding-pages-to-a-database)
+2. Refer to the 'Where can I find my database's ID?' section on the following page to get your database ID: [Working with databases](https://developers.notion.com/docs/working-with-databases#adding-pages-to-a-database).
 
 ### Add Notion credentials
 
